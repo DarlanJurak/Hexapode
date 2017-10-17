@@ -4,20 +4,23 @@
 *	@brief:			Main code to control the hexapode.
 */
 
-#include <iostream>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <typeinfo>
-#include <termios.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
+#include <iostream> 					// cout
+#include <unistd.h> 					//
+#include <stdio.h> 						//
+#include <stdlib.h>						//
+#include <typeinfo>						//
+#include <termios.h>					//
+#include <fcntl.h>						//
+#include <sys/ioctl.h>					//
+#include <sys/stat.h>					//
+#include <sys/types.h>					//
+#include <string.h>						// string
 
-#include <string.h>
-#include "opencv2/highgui/highgui.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
+#include <opencv2/opencv.hpp>			//
+#include <opencv2/core/core.hpp>		//
+#include <opencv2/highgui/highgui.hpp>	//
+
+#include "../include/masks.h"
 
 using namespace cv;
 using namespace std;
@@ -181,7 +184,7 @@ int main( int argc, char** argv )
     			*
     			*	... obstaclePresent = false; ....
     			*/
-    			
+
     		break;
     		case degree:
     		break;
@@ -202,26 +205,26 @@ int main( int argc, char** argv )
 */
 void sendCommand(Command cmd){
 
-	static char msg[];
+	char *msg;
 
 	switch(cmd){
 		case goAHead:
-			msg = "1";
+			msg = (char*)"1";
 		break;
 		case stop:
-			msg = "2";
+			msg = (char*)"2";
 		break;
 		case turnLeft:
-			msg = "3";
+			msg = (char*)"3";
 		break;
 		case turnRight:
-			msg = "4";
+			msg = (char*)"4";
 		break;
 		case goLeft:
-			msg = "5";
+			msg = (char*)"5";
 		break;
 		case goRight:
-			msg = "6";
+			msg = (char*)"6";
 		break;
 		default:
 		break;
@@ -468,7 +471,7 @@ void sendCommand(Command cmd){
    //          break; 
    //     	}
 
-    }
+//     }
 
-   return 0;
-}
+//    return 0;
+// }

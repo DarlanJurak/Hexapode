@@ -22,7 +22,23 @@
 using namespace cv;
 using namespace std;
 
+// Global variable
+int serial;
 
+// Enum types
+enum Command { goAHead, stop, turnLeft, turnRight, goLeft, goRight };
+enum Obstacle { none, wall, degree };
+
+// Functions
+void sendCommand(Command);
+
+/*
+*	@name: 			main
+*	@brief: 		Main code
+*	@parameters:	
+*					argc - ...
+*					argv - ...
+*/
 int main( int argc, char** argv )
 {
 
@@ -30,8 +46,8 @@ int main( int argc, char** argv )
 
 
 	//--- Serial connection (Raspberry Pi <-> Arduino) ------------------------//	
-	int fd = open(argv[1], O_RDWR);
-	if (fd == -1) {
+	serial = open(argv[1], O_RDWR);
+	if (serial == -1) {
 	  perror(argv[1]);
 	  return 1;
 	}
@@ -52,7 +68,7 @@ int main( int argc, char** argv )
 //--- discovery ---------------------------------------------------------------//
 
     bool obstaclePresent = false;
-    enum obstacle = {wall, degree}
+    Obstacle obstacle = none;
 
     // Data structure to treat pixel
 	Vec3d pix;
@@ -66,9 +82,7 @@ int main( int argc, char** argv )
     while(!obstaclePresent){
 
     	//--- Goes ahead -----------------------------------------------------//
-    	// send go ahead command through serial port
-		char msg[] = "1";
-		write(fd, msg, strlen(msg));
+    	sendCommand(goAHead);
 
 		
 //--- obstacle detecction -----------------------------------------------------//
@@ -144,14 +158,14 @@ int main( int argc, char** argv )
 			}				
 		}
 
+		// Determine acceptable acceptable area
 		if (pixelCounter > (bitWisedImage.rows * bitWisedImage.cols)/6){
 
 			obstaclePresent = true;
+			obstacle = wall;
 
 		}
     }
-
-    obstaclePresent = false;
 
 //--- obstacle overcomming ----------------------------------------------------//
 
@@ -160,6 +174,14 @@ int main( int argc, char** argv )
     	switch(obstacle){
 
     		case wall:
+
+    			sendCommand(goRight);
+    			/*
+    			*	... some logic ...
+    			*
+    			*	... obstaclePresent = false; ....
+    			*/
+    			
     		break;
     		case degree:
     		break;
@@ -170,6 +192,45 @@ int main( int argc, char** argv )
     	}
 
     }
+
+}
+
+/*
+*	@name: 			sendCommand
+*	@brief: 		Send command through serial comunicaiton ()
+*	@parameters:	cmd - Command type. (See globally declared Command type).
+*/
+void sendCommand(Command cmd){
+
+	static char msg[];
+
+	switch(cmd){
+		case goAHead:
+			msg = "1";
+		break;
+		case stop:
+			msg = "2";
+		break;
+		case turnLeft:
+			msg = "3";
+		break;
+		case turnRight:
+			msg = "4";
+		break;
+		case goLeft:
+			msg = "5";
+		break;
+		case goRight:
+			msg = "6";
+		break;
+		default:
+		break;
+	}
+
+	// sends command through serial port	
+	write(serial, msg, strlen(msg));
+
+}
 
     
 

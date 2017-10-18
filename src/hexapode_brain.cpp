@@ -59,6 +59,8 @@ int main( int argc, char** argv )
 	}
 	usleep(1000);	// start bit; sleep for 1ms to let it settle
 
+	cout << " Serial configured. " << endl;
+
 	//--- Video Config -----------------------------------------------------//
 
 	VideoCapture cap(0); //capture the video from web cam
@@ -68,8 +70,12 @@ int main( int argc, char** argv )
          return -1;
     }
 
+    cout << " Video configured. " << endl;
+
     //--- Masks definition -------------------------------------------------//
     initMasks();
+
+    cout << " Masks defined. " << endl;
 
     //--- Discovery initiation ---------------------------------------------//
     bool obstaclePresent = false;
@@ -79,9 +85,11 @@ int main( int argc, char** argv )
 
 	while(1){
 
-		sendCommand(goAHead);	
+		sendCommand(goAHead);
+		cout << " Send go ahead command. " << endl;
 
 //--- obstacle detection ---------------------------------------------------------//
+		cout << " Starting obstacleDetection function. " << endl;
 	    while(!obstaclePresent){
 
 	    	obstacle = obstacleDetection(&cap);
@@ -91,6 +99,7 @@ int main( int argc, char** argv )
 
 //--- obstacle overcomming -------------------------------------------------------//
 
+	    cout << " Treating found obstacle. " << endl;
 	    while(obstaclePresent){
 
 	    	switch(obstacle){

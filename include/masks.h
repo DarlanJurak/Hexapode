@@ -1,3 +1,19 @@
+// mask data structure definition
+struct mask{
+
+	int lowH; 
+	int lowS; 
+	int lowV; 
+	 
+	int highH;
+	int highS;
+	int highV;
+
+};
+
+// 1 mask for each obstacle
+mask obstacles_mask[3];
+
 int mask_removeBlackNavy_iLowH 				= 0;
 int mask_removeBlackNavy_iHighH 			= 104;
 int mask_removeBlackNavy_iLowS 				= 0; 

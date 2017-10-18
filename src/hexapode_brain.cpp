@@ -107,6 +107,7 @@ int main( int argc, char** argv )
 	    		case wall:
 
 	    			sendCommand(goRight);
+	    			sleep(1);
 	    			obstacle = obstacleDetection(&cap);
 	    			if (obstacle != none){
 

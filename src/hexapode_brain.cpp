@@ -284,7 +284,7 @@ Obstacle obstacleDetection(VideoCapture* cap){
 
 	}
 	
-	
+	return none;
 }
 
 void initMasks(){

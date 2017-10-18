@@ -281,12 +281,12 @@ Obstacle obstacleDetection(VideoCapture* cap){
 void initMasks(){
 
 	// wall obstacle
-	obstacles_mask[0].lowH 	= 84;
-	obstacles_mask[0].lowS 	= 161;
-	obstacles_mask[0].lowV 	= 38; 
-	obstacles_mask[0].highH = 193;
-	obstacles_mask[0].highS = 48;
-	obstacles_mask[0].highV = 101;
+	obstacles_mask[0].lowH 	= 127;
+	obstacles_mask[0].lowS 	= 103;
+	obstacles_mask[0].lowV 	= 146;
+	obstacles_mask[0].highH = 151;
+	obstacles_mask[0].highS = 200;
+	obstacles_mask[0].highV = 255;
 
 	// degree obstacle
 	obstacles_mask[1].lowH 	= 84;

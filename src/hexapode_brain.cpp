@@ -86,7 +86,7 @@ int main( int argc, char** argv )
 	while(1){
 
 		sendCommand(goAHead);
-		cout << " Send go ahead command. " << endl;
+		cout << " Sent go ahead command. " << endl;
 
 //--- obstacle detection ---------------------------------------------------------//
 		cout << " Starting obstacleDetection function. " << endl;
@@ -107,6 +107,7 @@ int main( int argc, char** argv )
 	    		case wall:
 
 	    			sendCommand(goRight);
+	    			cout << " Sent go right command. " << endl;
 	    			sleep(1);
 	    			obstacle = obstacleDetection(&cap);
 	    			if (obstacle != none){

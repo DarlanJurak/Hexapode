@@ -180,14 +180,14 @@ void sendCommand(Command cmd){
 Obstacle obstacleDetection(VideoCapture* cap){
 
 	// Matrices for video processing
-	static Mat imgOriginal;
-	static Mat imgHSV;
-	static Mat imgThresholded;
-	static Mat bitWisedImage, mask;
+	Mat imgOriginal;
+	Mat imgHSV;
+	Mat imgThresholded;
+	Mat bitWisedImage, mask;
 
 //--- Video Capturing ---------------------------------------------//
 
-	static bool bSuccess;	// read a new frame from video
+	bool bSuccess;	// read a new frame from video
 	bSuccess = (*cap).read(imgOriginal);
 
     if (!bSuccess) //if not success, break loop
@@ -232,11 +232,11 @@ Obstacle obstacleDetection(VideoCapture* cap){
 	//--- Determine if chased color is present --------------------------//
 
 		// Data structure to treat pixel
-		static Vec3d pix;
-	    static double hue;
-		static double sat;
-		static double val;
-		static long long pixelCounter;	//Simple counter for chased pixels	
+		Vec3d pix;
+	    double hue;
+		double sat;
+		double val;
+		long long pixelCounter;	//Simple counter for chased pixels	
 
 		pixelCounter = 0;
 

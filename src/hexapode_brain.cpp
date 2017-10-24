@@ -112,29 +112,32 @@ int main( int argc, char** argv )
 	    			cout << " Sent go right command. " << endl;
 	    			sleep(2);// wait finished hexapode movement
 
-	    			obstacle = obstacleDetection(&cap);
-	    			if 	(obstacle != none) 	obstaclePresent = true;	
-					else 					obstaclePresent = false;
-
-
 	    		break;
 
 	    		case degree:
+
 	    			// go ahead
 	    			// step in
 	    			// go ahead
 	    			// go down
+
 	    		break;
 	    		case portal:
+
 	    			// squat
 	    			// go ahead
 	    			// rise
+
 	    		break;
 	    		default:
 	    		break;
 
 
 	    	}//switch(obstacle)
+
+	    	obstacle = obstacleDetection(&cap);
+			if 	(obstacle != none) 	obstaclePresent = true;	
+			else 					obstaclePresent = false;
 
 	    }//while(obstacle)
 

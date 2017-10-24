@@ -89,6 +89,7 @@ int main( int argc, char** argv )
 		cout << " Sent go ahead command. " << endl;
 
 //--- obstacle detection ---------------------------------------------------------//
+
 		cout << " Starting obstacleDetection function. " << endl;
 	    while(!obstaclePresent){
 
@@ -107,23 +108,27 @@ int main( int argc, char** argv )
 	    		case wall:
 
 	    			sendCommand(goRight);
+	    			// @improve: wait for arduino response of finished movement
 	    			cout << " Sent go right command. " << endl;
-	    			sleep(1);
+	    			sleep(2);// wait finished hexapode movement
+
 	    			obstacle = obstacleDetection(&cap);
-	    			if (obstacle != none){
+	    			if 	(obstacle != none) 	obstaclePresent = true;	
+					else 					obstaclePresent = false;
 
-	    				obstaclePresent = true;	
-
-	    			}else{
-
-	    				obstaclePresent = false;
-
-	    			}
 
 	    		break;
+
 	    		case degree:
+	    			// go ahead
+	    			// step in
+	    			// go ahead
+	    			// go down
 	    		break;
 	    		case portal:
+	    			// squat
+	    			// go ahead
+	    			// rise
 	    		break;
 	    		default:
 	    		break;
@@ -291,28 +296,28 @@ Obstacle obstacleDetection(VideoCapture* cap){
 
 void initMasks(){
 
-	// wall obstacle
-	obstacles_mask[0].lowH 	= 127;
-	obstacles_mask[0].lowS 	= 103;
-	obstacles_mask[0].lowV 	= 146;
-	obstacles_mask[0].highH = 151;
-	obstacles_mask[0].highS = 200;
+	// wall obstacle; Blue;
+	obstacles_mask[0].lowH 	= 119;
+	obstacles_mask[0].lowS 	= 162;
+	obstacles_mask[0].lowV 	= 110;
+	obstacles_mask[0].highH = 130;
+	obstacles_mask[0].highS = 255;
 	obstacles_mask[0].highV = 255;
 
-	// degree obstacle
-	obstacles_mask[1].lowH 	= 84;
-	obstacles_mask[1].lowS 	= 161;
-	obstacles_mask[1].lowV 	= 38; 
-	obstacles_mask[1].highH = 193;
-	obstacles_mask[1].highS = 48;
-	obstacles_mask[1].highV = 101;
+	// degree obstacle; Red;
+	obstacles_mask[1].lowH 	= 0;
+	obstacles_mask[1].lowS 	= 0;
+	obstacles_mask[1].lowV 	= 0;
+	obstacles_mask[1].highH = 5;
+	obstacles_mask[1].highS = 255;
+	obstacles_mask[1].highV = 255;
 
-	// portal obstacle
-	obstacles_mask[2].lowH 	= 84;
-	obstacles_mask[2].lowS 	= 161;
-	obstacles_mask[2].lowV 	= 38; 
-	obstacles_mask[2].highH = 193;
-	obstacles_mask[2].highS = 48;
-	obstacles_mask[2].highV = 101;
+	// portal obstacle; Green;
+	obstacles_mask[2].lowH 	= 60;
+	obstacles_mask[2].lowS 	= 0;
+	obstacles_mask[2].lowV 	= 0; 
+	obstacles_mask[2].highH = 75;
+	obstacles_mask[2].highS = 255;
+	obstacles_mask[2].highV = 255;
 	
 }

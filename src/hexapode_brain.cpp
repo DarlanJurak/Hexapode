@@ -311,7 +311,7 @@ void initMasks(){
 	obstacles_mask[1].lowH 	= 0;
 	obstacles_mask[1].lowS 	= 0;
 	obstacles_mask[1].lowV 	= 0;
-	obstacles_mask[1].highH = 5;
+	obstacles_mask[1].highH = 15;
 	obstacles_mask[1].highS = 255;
 	obstacles_mask[1].highV = 255;
 

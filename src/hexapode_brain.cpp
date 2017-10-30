@@ -63,11 +63,14 @@ int main( int argc, char** argv )
 
 	sleep(1);
 	serialPutchar(serial, '5');
+	cout << "Sent '5' to Arduino" << endl;
 	sleep(1);
+
 	while(serialDataAvail(serial) == 0){
 		continue;
 	}
 
+	cout << "Arduino sent" << serialGetchar(serial) << endl;
 	cout << " Serial configured. " << endl;
 
 	//--- Video Config -----------------------------------------------------//

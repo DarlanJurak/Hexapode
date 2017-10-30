@@ -53,25 +53,25 @@ int main( int argc, char** argv )
 
 	//--- Serial connection (Raspberry Pi <-> Arduino) ---------------------//
 
-	serial = serialOpen(argv[1], 9600);
-	if (serial < 0){
+	serial = serialOpen(argv[1], 9600);	// Open serial
+	if (serial < 0){	// test if serial was corrected opened
 
 		cout << "Cant open serial. :(" << endl;
 		return -1;
 
 	}
 
-	sleep(1);
-	serialPutchar(serial, '5');
-	cout << "Sent 5 to Arduino" << endl;
-	sleep(1);
+	sleep(1);	// wait for serial configuration to finish
+	serialPutchar(serial, '5'); // send some data to Arduino
+	cout << "Sent 5 to Arduino" << endl; // verbose action
+	sleep(1); // wait for Arduino response
 
-	while(serialDataAvail(serial) == 0){
+	while(serialDataAvail(serial) == 0){ // wait for Arduino response
 		continue;
 	}
 
-	cout << "Arduino sent " << serialGetchar(serial) - 48 << endl;
-	cout << " Serial configured. " << endl;
+	cout << "Arduino sent " << serialGetchar(serial) - 48 << endl; // Show received data from Arduino
+	cout << "Serial configured. " << endl;
 
 	//--- Video Config -----------------------------------------------------//
 

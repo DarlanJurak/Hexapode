@@ -63,14 +63,14 @@ int main( int argc, char** argv )
 
 	sleep(1);
 	serialPutchar(serial, '5');
-	cout << "Sent '5' to Arduino" << endl;
+	cout << "Sent 5 to Arduino" << endl;
 	sleep(1);
 
 	while(serialDataAvail(serial) == 0){
 		continue;
 	}
 
-	cout << "Arduino sent" << serialGetchar(serial) << endl;
+	cout << "Arduino sent " << serialGetchar(serial) - 48 << endl;
 	cout << " Serial configured. " << endl;
 
 	//--- Video Config -----------------------------------------------------//
@@ -205,6 +205,15 @@ void sendCommand(Command cmd){
 
 	// sends command through serial port	
 	serialPutchar(serial, msg);
+
+	cout << "Sent " << msg << " to Arduino" << endl;
+	sleep(1);
+
+	while(serialDataAvail(serial) == 0){
+		continue;
+	}
+
+	cout << "Arduino sent " << serialGetchar(serial) - 48 << endl;
 
 }
 

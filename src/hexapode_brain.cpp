@@ -15,6 +15,7 @@
 #include <sys/stat.h>					//
 #include <sys/types.h>					//
 #include <string.h>						// string
+#include <wiringSerial.h>				// serial
 
 #include <opencv2/opencv.hpp>			//
 #include <opencv2/core/core.hpp>		//
@@ -29,7 +30,7 @@ using namespace std;
 int serial; // serial handler
 
 // Enum types
-enum Command { goAHead, stop, turnLeft, turnRight, goLeft, goRight };
+enum Command { goAHead, stop, turnLeft, turnRight, goLeft, goRight, squat };
 enum Obstacle { none, wall, degree, portal };
 
 // Functions
@@ -52,12 +53,20 @@ int main( int argc, char** argv )
 
 	//--- Serial connection (Raspberry Pi <-> Arduino) ---------------------//
 
-	serial = open(argv[1], O_RDWR);
-	if (serial == -1) {
-	  perror(argv[1]);
-	  return 1;
+	serial = serialOpen(argv[1], 9600);
+	if (serial < 0){
+
+		cout << "Cant open serial. :(" << endl;
+		return -1;
+
 	}
-	usleep(1000);	// start bit; sleep for 1ms to let it settle
+
+	sleep(1);
+	serialPutchar(serial, '5');
+	sleep(1);
+	while(serialDataAvail(serial) == 0){
+		continue;
+	}
 
 	cout << " Serial configured. " << endl;
 
@@ -103,14 +112,20 @@ int main( int argc, char** argv )
 	    cout << " Treating found obstacle. " << endl;
 	    while(obstaclePresent){
 
+    		sendCommand(stop);
+			cout << " Sent stop command. " << endl;
+			// @improve: wait for arduino response of finished movement
+			sleep(2);// wait finished hexapode movement
+
 	    	switch(obstacle){
 
 	    		case wall:
 
 	    			sendCommand(goRight);
-	    			// @improve: wait for arduino response of finished movement
 	    			cout << " Sent go right command. " << endl;
+	    			// @improve: wait for arduino response of finished movement
 	    			sleep(2);// wait finished hexapode movement
+	    			
 
 	    		break;
 
@@ -122,7 +137,13 @@ int main( int argc, char** argv )
 	    			// go down
 
 	    		break;
+	    		
 	    		case portal:
+
+	    			sendCommand(squat);
+	    			cout << " Sent squat command. " << endl;
+	    			// @improve: wait for arduino response of finished movement
+	    			sleep(2);// wait finished hexapode movement
 
 	    			// squat
 	    			// go ahead
@@ -151,33 +172,36 @@ int main( int argc, char** argv )
 */
 void sendCommand(Command cmd){
 
-	char *msg;
+	char msg;
 
 	switch(cmd){
 		case goAHead:
-			msg = (char*)"1";
+			msg = '1';
 		break;
 		case stop:
-			msg = (char*)"2";
+			msg = '2';
 		break;
 		case turnLeft:
-			msg = (char*)"3";
+			msg = '3';
 		break;
 		case turnRight:
-			msg = (char*)"4";
+			msg = '4';
 		break;
 		case goLeft:
-			msg = (char*)"5";
+			msg = '5';
 		break;
 		case goRight:
-			msg = (char*)"6";
+			msg = '6';
+		break;
+		case squat:
+			msg = '7';
 		break;
 		default:
 		break;
 	}
 
 	// sends command through serial port	
-	write(serial, msg, strlen(msg));
+	serialPutchar(serial, msg);
 
 }
 

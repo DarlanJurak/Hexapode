@@ -115,20 +115,16 @@ int main( int argc, char** argv )
 	    cout << " Treating found obstacle. " << endl;
 	    while(obstaclePresent){
 
+    		cout << " Sent stop command. " << endl;
     		sendCommand(stop);
-			cout << " Sent stop command. " << endl;
-			// @improve: wait for arduino response of finished movement
-			sleep(2);// wait finished hexapode movement
+			
 
 	    	switch(obstacle){
 
 	    		case wall:
 
-	    			sendCommand(goRight);
 	    			cout << " Sent go right command. " << endl;
-	    			// @improve: wait for arduino response of finished movement
-	    			sleep(2);// wait finished hexapode movement
-	    			
+	    			sendCommand(goRight);	    			
 
 	    		break;
 
@@ -143,10 +139,9 @@ int main( int argc, char** argv )
 	    		
 	    		case portal:
 
-	    			sendCommand(squat);
+	    			
 	    			cout << " Sent squat command. " << endl;
-	    			// @improve: wait for arduino response of finished movement
-	    			sleep(2);// wait finished hexapode movement
+	    			sendCommand(squat);
 
 	    			// squat
 	    			// go ahead

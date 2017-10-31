@@ -198,7 +198,8 @@ void sendCommand(Command cmd){
 		break;
 	}
 
-	// sends command through serial port	
+	// sends command through serial port
+	sleep(1);	
 	serialPutchar(serial, msg);
 
 	cout << "Sent " << msg << " to Arduino" << endl;

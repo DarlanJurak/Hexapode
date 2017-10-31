@@ -82,12 +82,12 @@ int main( int argc, char** argv )
          return -1;
     }
 
-    cout << " Video configured. " << endl;
+    cout << "Video configured. " << endl;
 
     //--- Masks definition -------------------------------------------------//
     initMasks();
 
-    cout << " Masks defined. " << endl;
+    cout << "Masks defined. " << endl;
 
     //--- Discovery initiation ---------------------------------------------//
     bool obstaclePresent = false;
@@ -98,11 +98,11 @@ int main( int argc, char** argv )
 	while(1){
 
 		sendCommand(goAHead);
-		cout << " Sent go ahead command. " << endl;
+		cout << "Sent go ahead command. " << endl;
 
 //--- obstacle detection ---------------------------------------------------------//
 
-		cout << " Starting obstacleDetection function. " << endl;
+		cout << "Starting obstacleDetection function. " << endl;
 	    while(!obstaclePresent){
 
 	    	obstacle = obstacleDetection(&cap);
@@ -112,10 +112,10 @@ int main( int argc, char** argv )
 
 //--- obstacle overcomming -------------------------------------------------------//
 
-	    cout << " Treating found obstacle. " << endl;
+	    cout << "Treating found obstacle. " << endl;
 	    while(obstaclePresent){
 
-    		cout << " Sent stop command. " << endl;
+    		cout << "Sent stop command. " << endl;
     		sendCommand(stop);
 			
 
@@ -123,7 +123,7 @@ int main( int argc, char** argv )
 
 	    		case wall:
 
-	    			cout << " Sent go right command. " << endl;
+	    			cout << "Sent go right command. " << endl;
 	    			sendCommand(goRight);	    			
 
 	    		break;
@@ -140,7 +140,7 @@ int main( int argc, char** argv )
 	    		case portal:
 
 	    			
-	    			cout << " Sent squat command. " << endl;
+	    			cout << "Sent squat command. " << endl;
 	    			sendCommand(squat);
 
 	    			// squat

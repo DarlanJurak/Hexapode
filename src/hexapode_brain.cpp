@@ -37,6 +37,7 @@ enum Obstacle { none, wall, degree, portal };
 void initMasks();
 void sendCommand(Command);
 Obstacle obstacleDetection(VideoCapture* cap);
+void dynamicDebug(VideoCapture* cap);
 
 /*
 *	@name: 			main
@@ -47,11 +48,6 @@ Obstacle obstacleDetection(VideoCapture* cap);
 */
 int main( int argc, char** argv )
 {
-
-//--- Debug Mode ------------------------------------------------------------------//
-	if( argc > 2){
-		dynamicDebug();
-	}
 
 //--- init -----------------------------------------------------------------------//
 
@@ -88,6 +84,13 @@ int main( int argc, char** argv )
     }
 
     cout << "Video configured. " << endl;
+    
+    //--- Debug Mode ------------------------------------------------------------------//
+	if( argc > 2){
+    
+		dynamicDebug(&cap);
+    
+	}
 
     //--- Masks definition -------------------------------------------------//
     initMasks();
@@ -227,8 +230,8 @@ void sendCommand(Command cmd){
 *	@parameters:	cap - 
 */
 Obstacle obstacleDetection(VideoCapture* cap){
-
-	// Matrices for video processing
+    
+    // Matrices for video processing
 	Mat imgOriginal;
 	Mat imgHSV;
 	Mat imgThresholded;
@@ -337,9 +340,11 @@ Obstacle obstacleDetection(VideoCapture* cap){
 	return none;
 }
 
-void dynamicDebug(){
+void dynamicDebug(VideoCapture* cap){
 
-	// Matrices for video processing
+		while(1){
+      
+      // Matrices for video processing
 	Mat imgOriginal;
 	Mat imgHSV;
 	Mat imgThresholded;
@@ -353,7 +358,6 @@ void dynamicDebug(){
     if (!bSuccess) //if not success, break loop
     {
          cout << "Cannot read a frame from video stream" << endl;
-         return none;
     }
 
 //--- HSV conversion -----------------------------------------------//
@@ -395,7 +399,7 @@ void dynamicDebug(){
 
 			imshow("Wall", bitWisedImage); 	//show the Filtered image
 
-		}else if(obstaclesMasks == 1){
+		}/*else if(obstaclesMasks == 1){
 
 			imshow("Degree", bitWisedImage); 	//show the Filtered image
 
@@ -403,8 +407,9 @@ void dynamicDebug(){
 
 			imshow("Portal", bitWisedImage); 	//show the Filtered image
 
-		}
-
+		}*/
+  }
+}
 }
 
 void initMasks(){

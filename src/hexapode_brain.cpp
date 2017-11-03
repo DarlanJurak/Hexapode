@@ -48,6 +48,11 @@ Obstacle obstacleDetection(VideoCapture* cap);
 int main( int argc, char** argv )
 {
 
+//--- Debug Mode ------------------------------------------------------------------//
+	if( argc > 2){
+		dynamicDebug();
+	}
+
 //--- init -----------------------------------------------------------------------//
 
 
@@ -330,6 +335,76 @@ Obstacle obstacleDetection(VideoCapture* cap){
 	}
 	
 	return none;
+}
+
+void dynamicDebug(){
+
+	// Matrices for video processing
+	Mat imgOriginal;
+	Mat imgHSV;
+	Mat imgThresholded;
+	Mat bitWisedImage, mask;
+
+//--- Video Capturing ---------------------------------------------//
+
+	bool bSuccess;	// read a new frame from video
+	bSuccess = (*cap).read(imgOriginal);
+
+    if (!bSuccess) //if not success, break loop
+    {
+         cout << "Cannot read a frame from video stream" << endl;
+         return none;
+    }
+
+//--- HSV conversion -----------------------------------------------//
+
+	//Convert the captured frame from BGR to HSV
+	cvtColor(imgOriginal, imgHSV, COLOR_BGR2HSV); 
+
+//--- Define and Apply mask ----------------------------------------//
+
+	for( int obstaclesMasks = 0; obstaclesMasks < 3; obstaclesMasks++){
+
+		//Bounds defines chased color. 
+		//The last parameter is a binary image.
+		inRange(
+				imgHSV, 
+				Scalar(	obstacles_mask[obstaclesMasks].lowH,	obstacles_mask[obstaclesMasks].lowS, 	obstacles_mask[obstaclesMasks].lowV), 
+				Scalar(	obstacles_mask[obstaclesMasks].highH,	obstacles_mask[obstaclesMasks].highS,	obstacles_mask[obstaclesMasks].highV), 
+				imgThresholded
+		);
+
+		//--- Morphological changes -----------------------------------------//
+
+		//morphological opening (removes small objects from the foreground)
+		erode (imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
+		dilate(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
+
+		//morphological closing (removes small holes from the foreground)
+		dilate(imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
+		erode (imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));			
+
+	//--- Creates binary image and filters original image ---------------//
+
+		//Apply mask to the original image, before HSV conversion.
+		bitwise_and(imgOriginal, imgOriginal, bitWisedImage, imgThresholded);
+
+	//--- Show images --------------------------//
+
+		if(obstaclesMasks == 0){
+
+			imshow("Wall", bitWisedImage); 	//show the Filtered image
+
+		}else if(obstaclesMasks == 1){
+
+			imshow("Degree", bitWisedImage); 	//show the Filtered image
+
+		}else if(obstaclesMasks == 2){
+
+			imshow("Portal", bitWisedImage); 	//show the Filtered image
+
+		}
+
 }
 
 void initMasks(){

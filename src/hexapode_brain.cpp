@@ -30,7 +30,7 @@ using namespace std;
 int serial; // serial handler
 
 // Enum types
-enum Command { goAHead, stop, turnLeft, turnRight, goLeft, goRight, squat };
+enum Command { goAHead, stop, turnLeft, turnRight, goLeft, goRight, squat, rise };
 enum Obstacle { none, wall, degree, portal };
 
 // Functions
@@ -62,8 +62,8 @@ int main( int argc, char** argv )
 	}
 
 	sleep(1);	// wait for serial configuration to finish
-	serialPutchar(serial, '5'); // send some data to Arduino
-	cout << "Sent 5 to Arduino" << endl; // verbose action
+	serialPutchar(serial, '0'); // send some data to Arduino
+	cout << "Sent 0 to Arduino" << endl; // verbose action
 	sleep(1); // wait for Arduino response
 
 	while(serialDataAvail(serial) == 0){ // wait for Arduino response
@@ -193,6 +193,9 @@ void sendCommand(Command cmd){
 		break;
 		case squat:
 			msg = '7';
+		break;
+		case rise:
+			msg = '8';
 		break;
 		default:
 		break;

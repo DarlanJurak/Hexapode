@@ -85,13 +85,6 @@ int main( int argc, char** argv )
     }
 
     cout << "Video configured. " << endl;
-    
-    //--- Debug Mode ------------------------------------------------------------------//
-	if( argc > 2){
-    
-		dynamicDebug(&cap);
-    
-	}
 
     //--- Masks definition -------------------------------------------------//
     initMasks();
@@ -101,6 +94,13 @@ int main( int argc, char** argv )
     //--- Discovery initiation ---------------------------------------------//
     bool obstaclePresent = false;
     Obstacle obstacle = none;
+
+    //--- Debug Mode ------------------------------------------------------------------//
+	if( argc > 2){
+    
+		dynamicDebug(&cap);
+    
+	}
 
 //--- discovery ------------------------------------------------------------------//
 

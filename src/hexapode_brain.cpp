@@ -52,6 +52,12 @@ int main( int argc, char** argv )
 
 //--- init -----------------------------------------------------------------------//
 
+	//--- Debug Mode ------------------------------------------------------------------//
+	if( argc > 2){
+    
+		dynamicDebug(&cap);
+    
+	}
 
 	//--- Serial connection (Raspberry Pi <-> Arduino) ---------------------//
 
@@ -94,13 +100,6 @@ int main( int argc, char** argv )
     //--- Discovery initiation ---------------------------------------------//
     bool obstaclePresent = false;
     Obstacle obstacle = none;
-
-    //--- Debug Mode ------------------------------------------------------------------//
-	if( argc > 2){
-    
-		dynamicDebug(&cap);
-    
-	}
 
 //--- discovery ------------------------------------------------------------------//
 
@@ -337,84 +336,132 @@ Obstacle obstacleDetection(VideoCapture* cap){
 		}
 
 	}
-
-	imshow("Wall", bitWisedImage);
 	
 	return none;
 }
 
 void dynamicDebug(VideoCapture* cap){
 
-	while(1){
-      
-	    // Matrices for video processing
-		Mat imgOriginal;
+	VideoCapture cap(0); //capture the video from web cam
+
+    if ( !cap.isOpened() )  // if not success, exit program
+    {
+         cout << "Cannot open the web cam" << endl;
+         return -1;
+    }
+
+    namedWindow("Control",CV_WINDOW_AUTOSIZE); //create a window called "Control"
+
+	int iLowH = 0;
+	int iHighH = 179;
+
+	int iLowS = 0; 
+	int iHighS = 255;
+
+	int iLowV = 0;
+	int iHighV = 255;
+
+	//Create trackbars in "Control" window
+	cvCreateTrackbar("LowH", "Control", &iLowH, 179); //Hue (0 - 179)
+	cvCreateTrackbar("HighH", "Control", &iHighH, 179);
+
+	cvCreateTrackbar("LowS", "Control", &iLowS, 255); //Saturation (0 - 255)
+	cvCreateTrackbar("HighS", "Control", &iHighS, 255);
+
+	cvCreateTrackbar("LowV", "Control", &iLowV, 255);//Value (0 - 255)
+	cvCreateTrackbar("HighV", "Control", &iHighV, 255);
+
+    while (true)
+    {
+        Mat imgOriginal;
+
+        bool bSuccess = cap.read(imgOriginal); // read a new frame from video
+
+         if (!bSuccess) //if not success, break loop
+        {
+             cout << "Cannot read a frame from video stream" << endl;
+             break;
+        }
+
 		Mat imgHSV;
+
+		cvtColor(imgOriginal, imgHSV, COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
+	
 		Mat imgThresholded;
+
+		inRange(imgHSV, Scalar(iLowH, iLowS, iLowV), Scalar(iHighH, iHighS, iHighV), imgThresholded); //Threshold the image
+      
+		//morphological opening (removes small objects from the foreground)
+		erode (imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
+		dilate(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
+
+		//morphological closing (removes small holes from the foreground)
+		dilate(imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
+		erode (imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
+
 		Mat bitWisedImage, mask;
+		int mask_iLowH 	= mask_highBrightRubikCubeYellow_iLowH;
+		int mask_iHighH = mask_highBrightRubikCubeYellow_iHighH;
+		int mask_iLowS 	= mask_highBrightRubikCubeYellow_iLowS; 
+		int mask_iHighS = mask_highBrightRubikCubeYellow_iHighS;
+		int mask_iLowV 	= mask_highBrightRubikCubeYellow_iLowV;
+		int mask_iHighV = mask_highBrightRubikCubeYellow_iHighV;
 
-		//--- Video Capturing ---------------------------------------------//
+		// int mask_iLowH 	= iLowH;
+		// int mask_iHighH = iHighH;
+		// int mask_iLowS 	= iLowS; 
+		// int mask_iHighS = iHighS;
+		// int mask_iLowV 	= iLowV;
+		// int mask_iHighV = iHighV;
 
-		bool bSuccess;	// read a new frame from video
-		bSuccess = (*cap).read(imgOriginal);
+		//Creates mask. Bounds defines chased color.
+		inRange(imgHSV, Scalar(mask_iLowH, mask_iLowS, mask_iLowV), Scalar(mask_iHighH, mask_iHighS, mask_iHighV), mask);
+		bitwise_and(imgOriginal, imgOriginal, bitWisedImage, mask);
 
-		imshow("Wall", imgOriginal);
+		imshow("Thresholded Image", imgThresholded); 	//show the thresholded image
+		imshow("Original", 			imgOriginal); 		//show the original image
+		imshow("HSV Image", 		imgHSV); 			//show the HSV image
+		imshow("Bitwised Image", 	bitWisedImage); 	//show the Filtered image
 
-	    if (!bSuccess) //if not success, break loop
-	    {
-	         cout << "Cannot read a frame from video stream" << endl;
-	    }
+		Vec3d pix;
+        double hue;
+		double sat;
+		double val;
 
-		// //--- HSV conversion -----------------------------------------------//
+		for( int i = 0; i < bitWisedImage.rows; i++){
+			for( int j = 0; j < bitWisedImage.cols; j++){
 
-		// //Convert the captured frame from BGR to HSV
-		// cvtColor(imgOriginal, imgHSV, COLOR_BGR2HSV); 
+				pix = bitWisedImage.at<typeof(pix)>(i,j);
+				hue = pix.val[0];
+				sat = pix.val[1];
+				val = pix.val[2];
 
-		// //--- Define and Apply mask ----------------------------------------//
+				// if( (hue > 1) && (sat > 1) && (val > 1)){
 
-		// for( int obstaclesMasks = 0; obstaclesMasks < 3; obstaclesMasks++){
+				// 	cout << "Hue: " << hue << ". Sat: " << sat << ". Val: " << val << "." << endl;
+				// }
+			}				
+		}
+	    
+	   
+    	if (waitKey(30) == 27) //wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
+      	{
+            cout << "esc key is pressed by user" << endl;
 
-		// 	//Bounds defines chased color. 
-		// 	//The last parameter is a binary image.
-		// 	inRange(
-		// 			imgHSV, 
-		// 			Scalar(	obstacles_mask[obstaclesMasks].lowH,	obstacles_mask[obstaclesMasks].lowS, 	obstacles_mask[obstaclesMasks].lowV), 
-		// 			Scalar(	obstacles_mask[obstaclesMasks].highH,	obstacles_mask[obstaclesMasks].highS,	obstacles_mask[obstaclesMasks].highV), 
-		// 			imgThresholded
-		// 	);
+			// cout << "\nCanais: " << bitWisedImage.channels() << "\nLinhas: " << bitWisedImage.rows << "\nColunas: " << bitWisedImage.cols << endl;
 
-		// 	//--- Morphological changes -----------------------------------------//
+            // Show last pixel info
+			pix	= bitWisedImage.at<typeof(pix)>(bitWisedImage.rows -1, bitWisedImage.cols -1);
+			hue = pix.val[0];
+			sat = pix.val[1];
+			val = pix.val[2];
 
-		// 	//morphological opening (removes small objects from the foreground)
-		// 	erode (imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
-		// 	dilate(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
+			cout << "\nHue: " << hue << "\nSat: " << sat << "\nVal: " << val << endl;
 
-		// 	//morphological closing (removes small holes from the foreground)
-		// 	dilate(imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
-		// 	erode (imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));			
+            break; 
+       	}
 
-		// //--- Creates binary image and filters original image ---------------//
-
-		// 	//Apply mask to the original image, before HSV conversion.
-		// 	bitwise_and(imgOriginal, imgOriginal, bitWisedImage, imgThresholded);
-
-		// //--- Show images --------------------------//
-
-		// 	if(obstaclesMasks == 0){
-
-		// 		imshow("Wall", bitWisedImage); 	//show the Filtered image
-
-		// 	}else if(obstaclesMasks == 1){
-
-			// 	imshow("Degree", bitWisedImage); 	//show the Filtered image
-
-			// }else if(obstaclesMasks == 2){
-
-			// 	imshow("Portal", bitWisedImage); 	//show the Filtered image
-
-			// }
-	  // }
-	}
+    }
 }
 
 void initMasks(){

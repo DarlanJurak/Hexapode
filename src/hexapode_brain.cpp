@@ -337,6 +337,8 @@ Obstacle obstacleDetection(VideoCapture* cap){
 		}
 
 	}
+
+	imshow("Wall", bitWisedImage);
 	
 	return none;
 }

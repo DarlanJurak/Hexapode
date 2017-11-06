@@ -342,6 +342,8 @@ Obstacle obstacleDetection(VideoCapture* cap){
 
 void dynamicDebug(){//VideoCapture* cap){
 
+	initMasks();
+
 	VideoCapture cap(0); //capture the video from web cam
 
     if ( !cap.isOpened() )  // if not success, exit program

@@ -347,7 +347,6 @@ void dynamicDebug(){//VideoCapture* cap){
     if ( !cap.isOpened() )  // if not success, exit program
     {
          cout << "Cannot open the web cam" << endl;
-         return -1;
     }
 
     namedWindow("Control",CV_WINDOW_AUTOSIZE); //create a window called "Control"

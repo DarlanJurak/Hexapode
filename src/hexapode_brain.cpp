@@ -343,74 +343,76 @@ Obstacle obstacleDetection(VideoCapture* cap){
 
 void dynamicDebug(VideoCapture* cap){
 
-		while(1){
+	while(1){
       
-      // Matrices for video processing
-	Mat imgOriginal;
-	Mat imgHSV;
-	Mat imgThresholded;
-	Mat bitWisedImage, mask;
+	    // Matrices for video processing
+		Mat imgOriginal;
+		Mat imgHSV;
+		Mat imgThresholded;
+		Mat bitWisedImage, mask;
 
-//--- Video Capturing ---------------------------------------------//
+		//--- Video Capturing ---------------------------------------------//
 
-	bool bSuccess;	// read a new frame from video
-	bSuccess = (*cap).read(imgOriginal);
+		bool bSuccess;	// read a new frame from video
+		bSuccess = (*cap).read(imgOriginal);
 
-    if (!bSuccess) //if not success, break loop
-    {
-         cout << "Cannot read a frame from video stream" << endl;
-    }
+		imshow("Wall", imgOriginal);
 
-//--- HSV conversion -----------------------------------------------//
+	    if (!bSuccess) //if not success, break loop
+	    {
+	         cout << "Cannot read a frame from video stream" << endl;
+	    }
 
-	//Convert the captured frame from BGR to HSV
-	cvtColor(imgOriginal, imgHSV, COLOR_BGR2HSV); 
+		// //--- HSV conversion -----------------------------------------------//
 
-//--- Define and Apply mask ----------------------------------------//
+		// //Convert the captured frame from BGR to HSV
+		// cvtColor(imgOriginal, imgHSV, COLOR_BGR2HSV); 
 
-	for( int obstaclesMasks = 0; obstaclesMasks < 3; obstaclesMasks++){
+		// //--- Define and Apply mask ----------------------------------------//
 
-		//Bounds defines chased color. 
-		//The last parameter is a binary image.
-		inRange(
-				imgHSV, 
-				Scalar(	obstacles_mask[obstaclesMasks].lowH,	obstacles_mask[obstaclesMasks].lowS, 	obstacles_mask[obstaclesMasks].lowV), 
-				Scalar(	obstacles_mask[obstaclesMasks].highH,	obstacles_mask[obstaclesMasks].highS,	obstacles_mask[obstaclesMasks].highV), 
-				imgThresholded
-		);
+		// for( int obstaclesMasks = 0; obstaclesMasks < 3; obstaclesMasks++){
 
-		//--- Morphological changes -----------------------------------------//
+		// 	//Bounds defines chased color. 
+		// 	//The last parameter is a binary image.
+		// 	inRange(
+		// 			imgHSV, 
+		// 			Scalar(	obstacles_mask[obstaclesMasks].lowH,	obstacles_mask[obstaclesMasks].lowS, 	obstacles_mask[obstaclesMasks].lowV), 
+		// 			Scalar(	obstacles_mask[obstaclesMasks].highH,	obstacles_mask[obstaclesMasks].highS,	obstacles_mask[obstaclesMasks].highV), 
+		// 			imgThresholded
+		// 	);
 
-		//morphological opening (removes small objects from the foreground)
-		erode (imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
-		dilate(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
+		// 	//--- Morphological changes -----------------------------------------//
 
-		//morphological closing (removes small holes from the foreground)
-		dilate(imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
-		erode (imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));			
+		// 	//morphological opening (removes small objects from the foreground)
+		// 	erode (imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
+		// 	dilate(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
 
-	//--- Creates binary image and filters original image ---------------//
+		// 	//morphological closing (removes small holes from the foreground)
+		// 	dilate(imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
+		// 	erode (imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));			
 
-		//Apply mask to the original image, before HSV conversion.
-		bitwise_and(imgOriginal, imgOriginal, bitWisedImage, imgThresholded);
+		// //--- Creates binary image and filters original image ---------------//
 
-	//--- Show images --------------------------//
+		// 	//Apply mask to the original image, before HSV conversion.
+		// 	bitwise_and(imgOriginal, imgOriginal, bitWisedImage, imgThresholded);
 
-		if(obstaclesMasks == 0){
+		// //--- Show images --------------------------//
 
-			imshow("Wall", bitWisedImage); 	//show the Filtered image
+		// 	if(obstaclesMasks == 0){
 
-		}/*else if(obstaclesMasks == 1){
+		// 		imshow("Wall", bitWisedImage); 	//show the Filtered image
 
-			imshow("Degree", bitWisedImage); 	//show the Filtered image
+		// 	}else if(obstaclesMasks == 1){
 
-		}else if(obstaclesMasks == 2){
+			// 	imshow("Degree", bitWisedImage); 	//show the Filtered image
 
-			imshow("Portal", bitWisedImage); 	//show the Filtered image
+			// }else if(obstaclesMasks == 2){
 
-		}*/
-  }
-}
+			// 	imshow("Portal", bitWisedImage); 	//show the Filtered image
+
+			// }
+	  // }
+	}
 }
 
 void initMasks(){

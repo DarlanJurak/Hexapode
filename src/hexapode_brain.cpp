@@ -38,7 +38,7 @@ enum Obstacle { none, wall, degree, portal };
 void initMasks();
 void sendCommand(Command);
 Obstacle obstacleDetection(VideoCapture* cap);
-void dynamicDebug(VideoCapture* cap);
+void dynamicDebug();//VideoCapture* cap);
 
 /*
 *	@name: 			main
@@ -55,7 +55,7 @@ int main( int argc, char** argv )
 	//--- Debug Mode ------------------------------------------------------------------//
 	if( argc > 2){
     
-		dynamicDebug(&cap);
+		dynamicDebug();//&cap);
     
 	}
 
@@ -340,7 +340,7 @@ Obstacle obstacleDetection(VideoCapture* cap){
 	return none;
 }
 
-void dynamicDebug(VideoCapture* cap){
+void dynamicDebug(){//VideoCapture* cap){
 
 	VideoCapture cap(0); //capture the video from web cam
 

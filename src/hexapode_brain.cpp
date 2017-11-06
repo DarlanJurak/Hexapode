@@ -390,6 +390,14 @@ void dynamicDebug(){//VideoCapture* cap){
 
 				imshow("Wall", imgThresholded); 	//show the thresholded image
 					
+			}else if(obstaclesMasks == 1){
+
+				imshow("Degree", imgThresholded); 	//show the thresholded image
+					
+			}else if(obstaclesMasks == 2){
+
+				imshow("Portal", imgThresholded); 	//show the thresholded image
+					
 			}
 			
 

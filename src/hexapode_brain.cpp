@@ -369,23 +369,32 @@ void dynamicDebug(){//VideoCapture* cap){
 	
 		Mat imgThresholded;
 
-		inRange(
+		for( int obstaclesMasks = 0; obstaclesMasks < 3; obstaclesMasks++){
+
+			inRange(
 				imgHSV, 
-				Scalar(	obstacles_mask[0].lowH,		obstacles_mask[0].lowS, 	obstacles_mask[0].lowV), 
-				Scalar(	obstacles_mask[0].highH,	obstacles_mask[0].highS,	obstacles_mask[0].highV), 
+				Scalar(	obstacles_mask[obstaclesMasks].lowH,	obstacles_mask[obstaclesMasks].lowS, 	obstacles_mask[obstaclesMasks].lowV), 
+				Scalar(	obstacles_mask[obstaclesMasks].highH,	obstacles_mask[obstaclesMasks].highS,	obstacles_mask[obstaclesMasks].highV), 
 				imgThresholded
-		);
-      
-		//morphological opening (removes small objects from the foreground)
-		erode (imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
-		dilate(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
+			);
+	      
+			//morphological opening (removes small objects from the foreground)
+			erode (imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
+			dilate(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
 
-		//morphological closing (removes small holes from the foreground)
-		dilate(imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
-		erode (imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
+			//morphological closing (removes small holes from the foreground)
+			dilate(imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
+			erode (imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
 
-		imshow("Thresholded Image", imgThresholded); 	//show the thresholded image
-	    
+			if(obstaclesMasks == 0){
+
+				imshow("Wall", imgThresholded); 	//show the thresholded image
+					
+			}
+			
+
+
+		}  
 	   
     	if (waitKey(30) == 27) //wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
       	{

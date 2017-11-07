@@ -195,7 +195,8 @@ int main( int argc, char** argv )
 */
 void sendCommand(Command cmd){
 
-	char msg;
+	unsigned char msg;
+	int dataAvailable = 0, arduinoResponse;
 
 	switch(cmd){
 		case goAHead:
@@ -227,17 +228,22 @@ void sendCommand(Command cmd){
 	}
 
 	// sends command through serial port
+	serialFlush();
 	sleep(1);	
 	serialPutchar(serial, msg);
 
 	cout << "Sent " << msg << " to Arduino" << endl;
 	sleep(1);
 
-	while(serialDataAvail(serial) == 0){
-		continue;
+	while(dataAvailable == 0){ // wait for Arduino response
+		dataAvailable = serialDataAvail(serial);
+		sleep(1); // wait for Arduino response
 	}
 
-	cout << "Arduino sent " << serialGetchar(serial) - 48 << endl;
+	arduinoResponse = serialGetchar(serial);
+	cout << "Arduino sent " << arduinoResponse - 48 << endl; // Show received data from Arduino
+
+	serialFlush(serial);		
 
 }
 
@@ -417,7 +423,7 @@ void testSerial(char** argv){
 			cout << dataAvailable << " available data on serial." << endl;	
 
 			arduinoResponse = serialGetchar(serial);
-			cout << "Arduino sent " << arduinoResponse << endl; // Show received data from Arduino
+			cout << "Arduino sent " << arduinoResponse - 48 << endl; // Show received data from Arduino
 
 			serialFlush(serial);
 

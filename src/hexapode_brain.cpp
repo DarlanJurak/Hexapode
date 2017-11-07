@@ -38,7 +38,7 @@ enum Obstacle { none, wall, degree, portal };
 void initMasks();
 void sendCommand(Command);
 Obstacle obstacleDetection(VideoCapture* cap);
-void dynamicDebug();//VideoCapture* cap);
+// void dynamicDebug();//VideoCapture* cap);
 
 /*
 *	@name: 			main
@@ -53,9 +53,12 @@ int main( int argc, char** argv )
 //--- init -----------------------------------------------------------------------//
 
 	//--- Debug Mode ------------------------------------------------------------------//
+
+	bool dynamicDebug = false;
+
 	if( argc > 2){
     
-		dynamicDebug();//&cap);
+		dynamicDebug = true;
     
 	}
 
@@ -113,7 +116,7 @@ int main( int argc, char** argv )
 		cout << "Starting obstacleDetection function. " << endl;
 	    while(!obstaclePresent){
 
-	    	obstacle = obstacleDetection(&cap);
+	    	obstacle = obstacleDetection(&cap, &dynamicDebug);
 	    	if (obstacle != none) obstaclePresent = true;
 
 	    }
@@ -162,7 +165,7 @@ int main( int argc, char** argv )
 
 	    	}//switch(obstacle)
 
-	    	obstacle = obstacleDetection(&cap);
+	    	obstacle = obstacleDetection(&cap, &dynamicDebug);
 			if 	(obstacle != none) 	obstaclePresent = true;	
 			else 					obstaclePresent = false;
 
@@ -229,7 +232,7 @@ void sendCommand(Command cmd){
 *	@brief: 		...
 *	@parameters:	cap - 
 */
-Obstacle obstacleDetection(VideoCapture* cap){
+Obstacle obstacleDetection(VideoCapture* cap, bool* dynamicDebug){
     
     // Matrices for video processing
 	Mat imgOriginal;
@@ -279,7 +282,7 @@ Obstacle obstacleDetection(VideoCapture* cap){
 	//--- Creates binary image and filters original image ---------------//
 
 		//Apply mask to the original image, before HSV conversion.
-		bitwise_and(imgOriginal, imgOriginal, bitWisedImage, imgThresholded);
+		//bitwise_and(imgOriginal, imgOriginal, bitWisedImage, imgThresholded);
 
 	//--- Determine if chased color is present --------------------------//
 
@@ -292,10 +295,10 @@ Obstacle obstacleDetection(VideoCapture* cap){
 
 		pixelCounter = 0;
 
-		for( int i = 0; i < bitWisedImage.rows; i++){
-			for( int j = 0; j < bitWisedImage.cols; j++){
+		for( int i = 0; i < imgThresholded.rows; i++){
+			for( int j = 0; j < imgThresholded.cols; j++){
 
-				pix = bitWisedImage.at<typeof(pix)>(i,j);
+				pix = imgThresholded.at<typeof(pix)>(i,j);
 				hue = pix.val[0];
 				sat = pix.val[1];
 				val = pix.val[2];
@@ -308,8 +311,26 @@ Obstacle obstacleDetection(VideoCapture* cap){
 			}				
 		}
 
+		if(*dynamicDebug){
+
+			if(obstaclesMasks == 0){
+
+				imshow("Wall", imgThresholded); 	//show the thresholded image
+					
+			}else if(obstaclesMasks == 1){
+
+				imshow("Degree", imgThresholded); 	//show the thresholded image
+					
+			}else if(obstaclesMasks == 2){
+
+				imshow("Portal", imgThresholded); 	//show the thresholded image
+					
+			}
+
+		}	
+
 		// Determine acceptable area
-		if (pixelCounter > (bitWisedImage.rows * bitWisedImage.cols)/6){
+		if (pixelCounter > (imgThresholded.rows * imgThresholded.cols)/6){
 
 			switch(obstaclesMasks){
 
@@ -336,82 +357,90 @@ Obstacle obstacleDetection(VideoCapture* cap){
 		}
 
 	}
+
+	//--- Closes image ----------------------------------------------------//
+
+	if (waitKey(30) == 27) //wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
+  	{
+        cout << "esc key is pressed by user" << endl;
+        *dynamicDebug = false; 
+   	}
 	
 	return none;
 }
 
-void dynamicDebug(){//VideoCapture* cap){
+// void dynamicDebug(){//VideoCapture* cap){
 
-	initMasks();
+// 	initMasks();
 
-	VideoCapture cap(0); //capture the video from web cam
+// 	VideoCapture cap(0); //capture the video from web cam
 
-    if ( !cap.isOpened() )  // if not success, exit program
-    {
-         cout << "Cannot open the web cam" << endl;
-    }
+//     if ( !cap.isOpened() )  // if not success, exit program
+//     {
+//          cout << "Cannot open the web cam" << endl;
+//     }
 
-    while (true)
-    {
-        Mat imgOriginal;
+//     while (true)
+//     {
+//         Mat imgOriginal;
 
-        bool bSuccess = cap.read(imgOriginal); // read a new frame from video
+//         bool bSuccess = cap.read(imgOriginal); // read a new frame from video
 
-         if (!bSuccess) //if not success, break loop
-        {
-             cout << "Cannot read a frame from video stream" << endl;
-             break;
-        }
+//          if (!bSuccess) //if not success, break loop
+//         {
+//              cout << "Cannot read a frame from video stream" << endl;
+//              break;
+//         }
 
-		Mat imgHSV;
+// 		Mat imgHSV;
 
-		cvtColor(imgOriginal, imgHSV, COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
+// 		cvtColor(imgOriginal, imgHSV, COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
 	
-		Mat imgThresholded;
+// 		Mat imgThresholded;
 
-		for( int obstaclesMasks = 0; obstaclesMasks < 3; obstaclesMasks++){
+// 		for( int obstaclesMasks = 0; obstaclesMasks < 3; obstaclesMasks++){
 
-			inRange(
-				imgHSV, 
-				Scalar(	obstacles_mask[obstaclesMasks].lowH,	obstacles_mask[obstaclesMasks].lowS, 	obstacles_mask[obstaclesMasks].lowV), 
-				Scalar(	obstacles_mask[obstaclesMasks].highH,	obstacles_mask[obstaclesMasks].highS,	obstacles_mask[obstaclesMasks].highV), 
-				imgThresholded
-			);
+// 			inRange(
+// 				imgHSV, 
+// 				Scalar(	obstacles_mask[obstaclesMasks].lowH,	obstacles_mask[obstaclesMasks].lowS, 	obstacles_mask[obstaclesMasks].lowV), 
+// 				Scalar(	obstacles_mask[obstaclesMasks].highH,	obstacles_mask[obstaclesMasks].highS,	obstacles_mask[obstaclesMasks].highV), 
+// 				imgThresholded
+// 			);
 	      
-			//morphological opening (removes small objects from the foreground)
-			erode (imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
-			dilate(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
+// 			//morphological opening (removes small objects from the foreground)
+// 			erode (imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
+// 			dilate(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
 
-			//morphological closing (removes small holes from the foreground)
-			dilate(imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
-			erode (imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
+// 			//morphological closing (removes small holes from the foreground)
+// 			dilate(imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5))); 
+// 			erode (imgThresholded, 	imgThresholded,	getStructuringElement(MORPH_ELLIPSE, Size(5, 5)));
 
-			if(obstaclesMasks == 0){
+// 			if(obstaclesMasks == 0){
 
-				imshow("Wall", imgThresholded); 	//show the thresholded image
+// 				imshow("Wall", imgThresholded); 	//show the thresholded image
 					
-			}else if(obstaclesMasks == 1){
+// 			}else if(obstaclesMasks == 1){
 
-				imshow("Degree", imgThresholded); 	//show the thresholded image
+// 				imshow("Degree", imgThresholded); 	//show the thresholded image
 					
-			}else if(obstaclesMasks == 2){
+// 			}else if(obstaclesMasks == 2){
 
-				imshow("Portal", imgThresholded); 	//show the thresholded image
+// 				imshow("Portal", imgThresholded); 	//show the thresholded image
 					
-			}
+// 			}
 			
 
 
-		}  
+// 		}  
 	   
-    	if (waitKey(30) == 27) //wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
-      	{
-            cout << "esc key is pressed by user" << endl;
-            break; 
-       	}
+//     	if (waitKey(30) == 27) //wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
+//       	{
+//             cout << "esc key is pressed by user" << endl;
+//             break; 
+//        	}
 
-    }
-}
+//     }
+// }
 
 void initMasks(){
 

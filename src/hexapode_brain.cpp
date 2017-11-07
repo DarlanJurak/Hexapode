@@ -37,7 +37,7 @@ enum Obstacle { none, wall, degree, portal };
 // Functions
 void initMasks();
 void sendCommand(Command);
-Obstacle obstacleDetection(VideoCapture* cap);
+Obstacle obstacleDetection(VideoCapture* cap, bool* dynamicDebug);
 // void dynamicDebug();//VideoCapture* cap);
 
 /*

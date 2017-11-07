@@ -31,7 +31,7 @@ using namespace std;
 int serial; // serial handler
 
 // Enum types
-enum Command { goAHead, stop, turnLeft, turnRight, goLeft, goRight, squat, rise };
+enum Command { goAHead, stop, turnLeft, turnRight, goLeft, goRight, squat, rise, stepIn };
 enum Obstacle { none, wall, degree, portal };
 
 // Functions
@@ -137,40 +137,51 @@ int main( int argc, char** argv )
 
 //--- obstacle overcomming -------------------------------------------------------//
 
+		cout << "Sent stop command. " << endl;
+		sendCommand(stop);
 	    cout << "Treating found obstacle. " << endl;
+
 	    while(obstaclePresent){
-
-    		cout << "Sent stop command. " << endl;
-    		sendCommand(stop);
 			
-
 	    	switch(obstacle){
 
 	    		case wall:
 
-	    			cout << "Sent go right command. " << endl;
-	    			sendCommand(goRight);	    			
+	    			cout << "Sent go right command to pass wall. " << endl;
+	    			sendCommand(goRight);
+
+	    			// analyse both sides
+	    			// decide side to go
+
+	    			cout << "Sent go ahead command to pass wall. " << endl;
+	    			sendCommand(goAHead);
 
 	    		break;
 
 	    		case degree:
 
-	    			// go ahead
-	    			// step in
-	    			// go ahead
-	    			// go down
+	    			cout << "Sent go ahead command to pass degree. " << endl;
+	    			sendCommand(goAHead);
+
+					cout << "Sent go ahead command to pass degree. " << endl;
+	    			sendCommand(stepIn);	    			
+
+	    			cout << "Sent go ahead command to pass degree. " << endl;
+	    			sendCommand(goAHead);
 
 	    		break;
 	    		
 	    		case portal:
 
 	    			
-	    			cout << "Sent squat command. " << endl;
+	    			cout << "Sent squat command to pass portal. " << endl;
 	    			sendCommand(squat);
 
-	    			// squat
-	    			// go ahead
-	    			// rise
+	    			cout << "Sent go ahead command to pass portal. " << endl;
+	    			sendCommand(goAHead);
+
+	    			cout << "Sent go ahead command to pass portal. " << endl;
+	    			sendCommand(rise);
 
 	    		break;
 	    		default:
@@ -222,6 +233,9 @@ void sendCommand(Command cmd){
 		break;
 		case rise:
 			msg = '8';
+		break;
+		case stepIn:
+			msg = '9';
 		break;
 		default:
 		break;

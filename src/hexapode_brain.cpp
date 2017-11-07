@@ -428,8 +428,8 @@ void initMasks(){
 	obstacles_mask[1].lowS 	= 220;
 	obstacles_mask[1].lowV 	= 55;
 	obstacles_mask[1].highH = 179;
-	obstacles_mask[1].highS = 245;
-	obstacles_mask[1].highV = 185;
+	obstacles_mask[1].highS = 255;
+	obstacles_mask[1].highV = 255;
 
 	// portal obstacle; Green;
 	obstacles_mask[2].lowH 	= 0;

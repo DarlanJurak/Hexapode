@@ -417,11 +417,11 @@ void initMasks(){
 
 	// wall obstacle; Blue;
 	obstacles_mask[0].lowH 	= 100;
-	obstacles_mask[0].lowS 	= 200;
+	obstacles_mask[0].lowS 	= 100;
 	obstacles_mask[0].lowV 	= 70;
 	obstacles_mask[0].highH = 150;
 	obstacles_mask[0].highS = 255;
-	obstacles_mask[0].highV = 190;
+	obstacles_mask[0].highV = 255;
 
 	// degree obstacle; Yellow;
 	obstacles_mask[1].lowH 	= 0;

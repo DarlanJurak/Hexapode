@@ -62,7 +62,7 @@ int main( int argc, char** argv )
 
 			if( argv[3] == "serial" ){
 
-				testSerial();
+				testSerial(argv);
 
 			}
 
@@ -383,7 +383,7 @@ Obstacle obstacleDetection(VideoCapture* cap, bool* dynamicDebug){
 	return none;
 }
 
-void testSerial(){
+void testSerial(char** argv){
 
 	bool passed = false;
 	char sentData, arduinoResponse;

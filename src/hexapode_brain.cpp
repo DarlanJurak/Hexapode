@@ -60,7 +60,7 @@ int main( int argc, char** argv )
 
 		if( argc > 3 ){
 
-			if( argv[3] == "serial" ){
+			if( argv[3] == std::string("serial") ){
 
 				testSerial(argv);
 
@@ -68,7 +68,7 @@ int main( int argc, char** argv )
 
 		}
     
-    	if(argv[2] == "debug"){
+    	if( argv[2] == std::string("debug") ){
 
     		dynamicDebug = true;
 

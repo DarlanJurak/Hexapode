@@ -425,7 +425,7 @@ void initMasks(){
 
 	// degree obstacle; Yellow;
 	obstacles_mask[1].lowH 	= 0;
-	obstacles_mask[1].lowS 	= 220;
+	obstacles_mask[1].lowS 	= 200;
 	obstacles_mask[1].lowV 	= 55;
 	obstacles_mask[1].highH = 179;
 	obstacles_mask[1].highS = 255;

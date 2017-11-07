@@ -386,8 +386,8 @@ Obstacle obstacleDetection(VideoCapture* cap, bool* dynamicDebug){
 void testSerial(char** argv){
 
 	bool passed = false;
-	char sentData, arduinoResponse;
-	int dataAvailable = 0;
+	unsigned char sentData;
+	int dataAvailable = 0, arduinoResponse;
 
 	serial = serialOpen(argv[1], 9600);	// Open serial
 	sleep(1);	// wait for serial configuration to finish
@@ -416,7 +416,7 @@ void testSerial(char** argv){
 			}
 			cout << dataAvailable << " available data on serial." << endl;	
 
-			arduinoResponse = serialGetchar(serial) - 48;
+			arduinoResponse = serialGetchar(serial);
 			cout << "Arduino sent " << arduinoResponse << endl; // Show received data from Arduino
 
 			serialFlush(serial);

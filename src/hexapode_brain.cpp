@@ -391,6 +391,7 @@ void testSerial(char** argv){
 
 	serial = serialOpen(argv[1], 9600);	// Open serial
 	sleep(1);	// wait for serial configuration to finish
+	serialFlush(serial);
 
 	if (serial < 0){	// test if serial was corrected opened
 
@@ -402,6 +403,8 @@ void testSerial(char** argv){
 
 		sentData = '0';
 		while(!passed){
+
+			dataAvailable = 0;
 
 			serialPutchar(serial, '0'); // send some data to Arduino
 			cout << "Sent 0 to Arduino" << endl; // verbose action
@@ -415,6 +418,8 @@ void testSerial(char** argv){
 
 			arduinoResponse = serialGetchar(serial) - 48;
 			cout << "Arduino sent " << arduinoResponse << endl; // Show received data from Arduino
+
+			serialFlush(serial);
 
 			if( arduinoResponse == sentData ){
 

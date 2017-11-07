@@ -216,16 +216,16 @@ void sendCommand(Command cmd){
 		case stop:
 			msg = '2';
 		break;
-		case turnLeft:
+		case goRight:
 			msg = '3';
 		break;
-		case turnRight:
+		case goLeft:
 			msg = '4';
 		break;
-		case goLeft:
+		case turnRight:
 			msg = '5';
 		break;
-		case goRight:
+		case turnLeft:
 			msg = '6';
 		break;
 		case squat:

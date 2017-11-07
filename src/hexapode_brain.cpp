@@ -38,7 +38,7 @@ enum Obstacle { none, wall, degree, portal };
 void initMasks();
 void sendCommand(Command);
 Obstacle obstacleDetection(VideoCapture* cap, bool* dynamicDebug);
-// void dynamicDebug();//VideoCapture* cap);
+void testSerial();
 
 /*
 *	@name: 			main
@@ -57,8 +57,22 @@ int main( int argc, char** argv )
 	bool dynamicDebug = false;
 
 	if( argc > 2){
+
+		if( argc > 3 ){
+
+			if( argv[3] == "serial" ){
+
+				testSerial();
+
+			}
+
+		}
     
-		dynamicDebug = true;
+    	if(argv[2] == "debug"){
+
+    		dynamicDebug = true;
+
+    	}
     
 	}
 
@@ -367,6 +381,56 @@ Obstacle obstacleDetection(VideoCapture* cap, bool* dynamicDebug){
    	}
 	
 	return none;
+}
+
+void testSerial(){
+
+	bool passed = false;
+	char sentData, arduinoResponse;
+	int dataAvailable = 0;
+
+	serial = serialOpen(argv[1], 9600);	// Open serial
+	sleep(1);	// wait for serial configuration to finish
+
+	if (serial < 0){	// test if serial was corrected opened
+
+		cout << "Cant open serial. :(" << endl;
+		break;
+
+	}
+
+	cout << "Serial configured. " << endl;
+
+	sentData = '0';
+	while(!passed){
+
+		serialPutchar(serial, '0'); // send some data to Arduino
+		cout << "Sent 0 to Arduino" << endl; // verbose action
+		sleep(1); // wait for Arduino response
+
+		while(dataAvailable == 0){ // wait for Arduino response
+			dataAvailable = serialDataAvail(serial);
+			sleep(1); // wait for Arduino response
+		}
+		cout << dataAvailable << " available data on serial." << endl;	
+
+		arduinoResponse = serialGetchar(serial) - 48;
+		cout << "Arduino sent " << arduinoResponse << endl; // Show received data from Arduino
+
+		if( arduinoResponse == sentData ){
+
+			passed = true;
+
+		}else{
+
+			cout << "Serial test: Failed." << endl;
+
+		}
+
+	}
+
+	cout << "Serial test: OK." << endl;
+	serialClose(serial);
 }
 
 // void dynamicDebug(){//VideoCapture* cap){

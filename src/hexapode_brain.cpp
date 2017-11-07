@@ -228,7 +228,7 @@ void sendCommand(Command cmd){
 	}
 
 	// sends command through serial port
-	serialFlush();
+	serialFlush(serial);
 	sleep(1);	
 	serialPutchar(serial, msg);
 

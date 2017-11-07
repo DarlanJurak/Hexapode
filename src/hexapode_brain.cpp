@@ -416,27 +416,27 @@ void dynamicDebug(){//VideoCapture* cap){
 void initMasks(){
 
 	// wall obstacle; Blue;
-	obstacles_mask[0].lowH 	= 110;
-	obstacles_mask[0].lowS 	= 160;
-	obstacles_mask[0].lowV 	= 60;
+	obstacles_mask[0].lowH 	= 100;
+	obstacles_mask[0].lowS 	= 200;
+	obstacles_mask[0].lowV 	= 70;
 	obstacles_mask[0].highH = 150;
 	obstacles_mask[0].highS = 255;
-	obstacles_mask[0].highV = 200;
+	obstacles_mask[0].highV = 190;
 
-	// degree obstacle; Red;
+	// degree obstacle; Yellow;
 	obstacles_mask[1].lowH 	= 0;
-	obstacles_mask[1].lowS 	= 170;
+	obstacles_mask[1].lowS 	= 220;
 	obstacles_mask[1].lowV 	= 55;
 	obstacles_mask[1].highH = 179;
 	obstacles_mask[1].highS = 245;
 	obstacles_mask[1].highV = 185;
 
 	// portal obstacle; Green;
-	obstacles_mask[2].lowH 	= 40;
-	obstacles_mask[2].lowS 	= 125;
-	obstacles_mask[2].lowV 	= 30; 
+	obstacles_mask[2].lowH 	= 0;
+	obstacles_mask[2].lowS 	= 100;
+	obstacles_mask[2].lowV 	= 60; 
 	obstacles_mask[2].highH = 90;
-	obstacles_mask[2].highS = 255;
-	obstacles_mask[2].highV = 125;
+	obstacles_mask[2].highS = 205;
+	obstacles_mask[2].highV = 180;
 	
 }

@@ -38,7 +38,7 @@ enum Obstacle { none, wall, degree, portal };
 void initMasks();
 void sendCommand(Command);
 Obstacle obstacleDetection(VideoCapture* cap, bool* dynamicDebug);
-void testSerial(char**);
+int testSerial(char**);
 
 /*
 *	@name: 			main
@@ -55,6 +55,7 @@ int main( int argc, char** argv )
 	//--- Debug Mode ------------------------------------------------------------------//
 
 	bool dynamicDebug = false;
+	int errorCounter = 0;
 
 	if( argc > 2){
 
@@ -62,7 +63,11 @@ int main( int argc, char** argv )
 
 			if( argv[3] == std::string("serial") ){
 
-				testSerial(argv);
+				for(int i = 0; i < 100; i++){
+					errorCounter += testSerial(argv);
+				}
+
+				cout << "Serial error relation: " << errorCounter/100 << endl;
 
 			}
 
@@ -84,7 +89,7 @@ int main( int argc, char** argv )
 		cout << "Cant open serial. :(" << endl;
 		return -1;
 
-	}
+	}	
 
 	sleep(1);	// wait for serial configuration to finish
 	serialPutchar(serial, '0'); // send some data to Arduino
@@ -246,16 +251,16 @@ void sendCommand(Command cmd){
 	sleep(1);	
 	serialPutchar(serial, msg);
 
-	cout << "Sent " << msg << " to Arduino" << endl;
+	cout << "Sent " << msg << " to microcontroller" << endl;
 	sleep(1);
 
-	while(dataAvailable == 0){ // wait for Arduino response
+	while(dataAvailable == 0){ // wait for microcontroller response
 		dataAvailable = serialDataAvail(serial);
-		sleep(1); // wait for Arduino response
+		sleep(1); // wait for microcontroller response
 	}
 
 	arduinoResponse = serialGetchar(serial);
-	cout << "Arduino sent " << arduinoResponse - 48 << endl; // Show received data from Arduino
+	cout << "Microcontroller sent " << arduinoResponse - 48 << endl; // Show received data from microcontroller
 
 	serialFlush(serial);		
 
@@ -403,7 +408,7 @@ Obstacle obstacleDetection(VideoCapture* cap, bool* dynamicDebug){
 	return none;
 }
 
-void testSerial(char** argv){
+int testSerial(char** argv){
 
 	bool passed = false;
 	unsigned char sentData;
@@ -427,7 +432,7 @@ void testSerial(char** argv){
 			dataAvailable = 0;
 
 			serialPutchar(serial, '0'); // send some data to Arduino
-			cout << "Sent 0 to Arduino" << endl; // verbose action
+			cout << "Sent 0 to Arduino" << endl; // verbose action 
 			sleep(1); // wait for Arduino response
 
 			while(dataAvailable == 0){ // wait for Arduino response
@@ -448,6 +453,7 @@ void testSerial(char** argv){
 			}else{
 
 				cout << "Serial test: Failed." << endl;
+				return 0;
 
 			}
 
@@ -455,6 +461,7 @@ void testSerial(char** argv){
 
 		cout << "Serial test: OK." << endl;
 		serialClose(serial);
+		return 1;
 
 	}
 

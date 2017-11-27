@@ -160,15 +160,6 @@ int main( int argc, char** argv )
 	    			cout << "Sent go right command to pass wall. " << endl;
 	    			sendCommand(goLeft);
 
-	    			cout << "Sent go right command to pass wall. " << endl;
-	    			sendCommand(goLeft);
-
-	    			cout << "Sent go right command to pass wall. " << endl;
-	    			sendCommand(goLeft);
-
-	    			cout << "Sent go right command to pass wall. " << endl;
-	    			sendCommand(goLeft);
-
 	    		break;
 
 	    		case degree:

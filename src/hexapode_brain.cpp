@@ -139,6 +139,8 @@ int main( int argc, char** argv )
 	    	if (obstacle != none) obstaclePresent = true;
 	    	else obstaclePresent = false;
 
+	    	sendCommand(goAHead);
+
 	    }
 
 //--- obstacle overcomming -------------------------------------------------------//

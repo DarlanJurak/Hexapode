@@ -138,6 +138,7 @@ int main( int argc, char** argv )
 		cout << "Starting obstacleDetection function. " << endl;
 	    while(!obstaclePresent){
 
+	    	sendCommand(goAHead);
 	    	obstacle = obstacleDetection(&cap, &dynamicDebug);
 	    	if (obstacle != none) obstaclePresent = true;
 	    	else obstaclePresent = false;

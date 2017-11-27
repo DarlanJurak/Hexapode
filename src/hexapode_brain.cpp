@@ -52,6 +52,8 @@ int main( int argc, char** argv )
 
 //--- init -----------------------------------------------------------------------//
 
+	bool crouched = false;
+
 	//--- Debug Mode ------------------------------------------------------------------//
 
 	bool dynamicDebug = false;
@@ -140,8 +142,6 @@ int main( int argc, char** argv )
 	    	if (obstacle != none) obstaclePresent = true;
 	    	else obstaclePresent = false;
 
-	    	sendCommand(goAHead);
-
 	    }
 
 //--- obstacle overcomming -------------------------------------------------------//
@@ -168,12 +168,6 @@ int main( int argc, char** argv )
 	    			cout << "Sent go right command to pass wall. " << endl;
 	    			sendCommand(goLeft);
 
-	    			// analyse both sides
-	    			// decide side to go
-
-	    			cout << "Sent go ahead command to pass wall. " << endl;
-	    			sendCommand(goAHead);
-
 	    		break;
 
 	    		case degree:
@@ -191,15 +185,16 @@ int main( int argc, char** argv )
 	    		
 	    		case portal:
 
-	    			
-	    			cout << "Sent squat command to pass portal. " << endl;
-	    			sendCommand(squat);
+	    			if(!crouched){
+
+	    				cout << "Sent squat command to pass portal. " << endl;
+	    				sendCommand(squat);
+	    				crouched = true;
+
+	    			}
 
 	    			cout << "Sent go ahead command to pass portal. " << endl;
 	    			sendCommand(goAHead);
-
-	    			cout << "Sent go ahead command to pass portal. " << endl;
-	    			sendCommand(rise);
 
 	    		break;
 	    		default:
@@ -210,7 +205,28 @@ int main( int argc, char** argv )
 
 	    	obstacle = obstacleDetection(&cap, &dynamicDebug);
 			if 	(obstacle != none) 	obstaclePresent = true;	
-			else 					obstaclePresent = false;
+			else{
+
+				if(crouched){
+
+					cout << "Sent go ahead command to pass portal. " << endl;
+	    			sendCommand(goAHead);
+	    			cout << "Sent go ahead command to pass portal. " << endl;
+	    			sendCommand(goAHead);
+	    			cout << "Sent go ahead command to pass portal. " << endl;
+	    			sendCommand(goAHead);
+	    			cout << "Sent go ahead command to pass portal. " << endl;
+	    			sendCommand(goAHead);
+
+					cout << "Sent rise command to pass portal. " << endl;
+	    			sendCommand(rise);	
+	    			crouched = false;    			
+
+				}
+
+				obstaclePresent = false;
+
+			}
 
 	    }//while(obstacle)
 

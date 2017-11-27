@@ -298,6 +298,25 @@ Obstacle obstacleDetection(VideoCapture* cap, bool* dynamicDebug){
 
 	(*cap).open(0);
 	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
+	bSuccess = (*cap).read(imgOriginal);
 	(*cap).release();
 
     if (!bSuccess) //if not success, break loop
@@ -592,19 +611,19 @@ void initMasks(){
 	obstacles_mask[0].highV = 255;
 
 	// degree obstacle; Yellow;
-	obstacles_mask[1].lowH 	= 60;
-	obstacles_mask[1].lowS 	= 80;
-	obstacles_mask[1].lowV 	= 80;
-	obstacles_mask[1].highH = 75;
+	obstacles_mask[1].lowH 	= 25;	
+	obstacles_mask[1].lowS 	= 120;
+	obstacles_mask[1].lowV 	= 190;
+	obstacles_mask[1].highH = 50;	
 	obstacles_mask[1].highS = 255;
 	obstacles_mask[1].highV = 255;
 
 	// portal obstacle; Green;
-	obstacles_mask[2].lowH 	= 25;
-	obstacles_mask[2].lowS 	= 120;
-	obstacles_mask[2].lowV 	= 190;
-	obstacles_mask[2].highH = 50;
-	obstacles_mask[2].highS = 255;
-	obstacles_mask[2].highV = 255;
-	
+	obstacles_mask[2].lowH 	= 60;	
+	obstacles_mask[2].lowS 	= 80;	
+	obstacles_mask[2].lowV 	= 80;	
+	obstacles_mask[2].highH = 75;	
+	obstacles_mask[2].highS = 255;	
+	obstacles_mask[2].highV = 255;	
+			
 }

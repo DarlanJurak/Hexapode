@@ -113,6 +113,7 @@ int main( int argc, char** argv )
     }
 
     cout << "Video configured. " << endl;
+    cap.release();
 
     //--- Masks definition -------------------------------------------------//
     initMasks();
@@ -156,7 +157,16 @@ int main( int argc, char** argv )
 	    		case wall:
 
 	    			cout << "Sent go right command to pass wall. " << endl;
-	    			sendCommand(goRight);
+	    			sendCommand(goLeft);
+
+	    			cout << "Sent go right command to pass wall. " << endl;
+	    			sendCommand(goLeft);
+
+	    			cout << "Sent go right command to pass wall. " << endl;
+	    			sendCommand(goLeft);
+
+	    			cout << "Sent go right command to pass wall. " << endl;
+	    			sendCommand(goLeft);
 
 	    			// analyse both sides
 	    			// decide side to go
@@ -285,7 +295,10 @@ Obstacle obstacleDetection(VideoCapture* cap, bool* dynamicDebug){
 //--- Video Capturing ---------------------------------------------//
 
 	bool bSuccess;	// read a new frame from video
+
+	(*cap).open(0);
 	bSuccess = (*cap).read(imgOriginal);
+	(*cap).release();
 
     if (!bSuccess) //if not success, break loop
     {

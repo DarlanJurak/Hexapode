@@ -21,7 +21,6 @@
 #include <opencv2/core/core.hpp>		//
 #include <opencv2/highgui/highgui.hpp>	//
 #include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/videoio/videoio_c.h"
 
 #include "../include/masks.h"
 
@@ -107,7 +106,6 @@ int main( int argc, char** argv )
 	//--- Video Config -----------------------------------------------------//
 
 	VideoCapture cap(0); //capture the video from web cam
-	cap.set(CV_CAP_PROP_BUFFERSIZE, 1);
     if ( !cap.isOpened() )  // if not success, exit program
     {
          cout << "Cannot open the web cam" << endl;

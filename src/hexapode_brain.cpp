@@ -106,6 +106,7 @@ int main( int argc, char** argv )
 	//--- Video Config -----------------------------------------------------//
 
 	VideoCapture cap(0); //capture the video from web cam
+	cap.set(CV_CAP_PROP_BUFFERSIZE, 1);
     if ( !cap.isOpened() )  // if not success, exit program
     {
          cout << "Cannot open the web cam" << endl;

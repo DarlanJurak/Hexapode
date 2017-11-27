@@ -132,11 +132,12 @@ int main( int argc, char** argv )
 
 //--- obstacle detection ---------------------------------------------------------//
 
-		// cout << "Starting obstacleDetection function. " << endl;
-	 //    while(!obstaclePresent){
+		cout << "Starting obstacleDetection function. " << endl;
+	    while(!obstaclePresent){
 
-	 //    	obstacle = obstacleDetection(&cap, &dynamicDebug);
-	 //    	if (obstacle != none) obstaclePresent = true;
+	    	obstacle = obstacleDetection(&cap, &dynamicDebug);
+	    	if (obstacle != none) obstaclePresent = true;
+	    	else obstaclePresent = false;
 
 	    }
 
@@ -201,7 +202,7 @@ int main( int argc, char** argv )
 
 	    }//while(obstacle)
 
-	// }//while(1) 
+	}//while(1) 
 }//main
 
 /*

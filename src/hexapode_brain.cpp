@@ -571,27 +571,27 @@ void initMasks(){
 	// obstacles_mask[2].highV = 180;
 
 	// wall obstacle; Blue;
-	obstacles_mask[0].lowH 	= 0;
-	obstacles_mask[0].lowS 	= 0;
-	obstacles_mask[0].lowV 	= 0;
-	obstacles_mask[0].highH = 0;
-	obstacles_mask[0].highS = 0;
-	obstacles_mask[0].highV = 0;
+	obstacles_mask[0].lowH 	= 110;
+	obstacles_mask[0].lowS 	= 162;
+	obstacles_mask[0].lowV 	= 110;
+	obstacles_mask[0].highH = 130;
+	obstacles_mask[0].highS = 255;
+	obstacles_mask[0].highV = 255;
 
 	// degree obstacle; Yellow;
-	obstacles_mask[1].lowH 	= 0;
-	obstacles_mask[1].lowS 	= 0;
-	obstacles_mask[1].lowV 	= 0;
-	obstacles_mask[1].highH = 0;
-	obstacles_mask[1].highS = 0;
-	obstacles_mask[1].highV = 0;
+	obstacles_mask[1].lowH 	= 60;
+	obstacles_mask[1].lowS 	= 80;
+	obstacles_mask[1].lowV 	= 80;
+	obstacles_mask[1].highH = 75;
+	obstacles_mask[1].highS = 255;
+	obstacles_mask[1].highV = 255;
 
 	// portal obstacle; Green;
-	obstacles_mask[2].lowH 	= 0;
-	obstacles_mask[2].lowS 	= 0;
-	obstacles_mask[2].lowV 	= 0;
-	obstacles_mask[2].highH = 0;
-	obstacles_mask[2].highS = 0;
-	obstacles_mask[2].highV = 0;
+	obstacles_mask[2].lowH 	= 25;
+	obstacles_mask[2].lowS 	= 120;
+	obstacles_mask[2].lowV 	= 190;
+	obstacles_mask[2].highH = 50;
+	obstacles_mask[2].highS = 255;
+	obstacles_mask[2].highV = 255;
 	
 }

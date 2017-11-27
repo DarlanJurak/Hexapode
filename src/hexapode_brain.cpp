@@ -52,7 +52,7 @@ int main( int argc, char** argv )
 
 //--- init -----------------------------------------------------------------------//
 
-	bool crouched = false;
+	bool crouched = false, treatingWall = false;
 
 	//--- Debug Mode ------------------------------------------------------------------//
 
@@ -159,6 +159,7 @@ int main( int argc, char** argv )
 
 	    			cout << "Sent go right command to pass wall. " << endl;
 	    			sendCommand(goLeft);
+	    			treatingWall = true;
 
 	    		break;
 
@@ -213,6 +214,19 @@ int main( int argc, char** argv )
 					cout << "Sent rise command to pass portal. " << endl;
 	    			sendCommand(rise);	
 	    			crouched = false;    			
+
+				}else if(treatingWall){
+
+					cout << "Sent go right command to pass wall. " << endl;
+	    			sendCommand(goLeft);
+	    			cout << "Sent go right command to pass wall. " << endl;
+	    			sendCommand(goLeft);
+	    			cout << "Sent go right command to pass wall. " << endl;
+	    			sendCommand(goLeft);
+	    			cout << "Sent go right command to pass wall. " << endl;
+	    			sendCommand(goLeft);
+
+	    			treatingWall = false;
 
 				}
 

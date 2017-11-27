@@ -127,20 +127,19 @@ int main( int argc, char** argv )
 
 	while(1){
 
-		// sendCommand(goAHead);
-		sendCommand(squat);
+		sendCommand(goAHead);
 		cout << "Sent go ahead command. " << endl;
 
 //--- obstacle detection ---------------------------------------------------------//
 
-		// cout << "Starting obstacleDetection function. " << endl;
-	 //    while(!obstaclePresent){
+		cout << "Starting obstacleDetection function. " << endl;
+	    while(!obstaclePresent){
 
-	 //    	obstacle = obstacleDetection(&cap, &dynamicDebug);
-	 //    	if (obstacle != none) obstaclePresent = true;
-	 //    	else obstaclePresent = false;
+	    	obstacle = obstacleDetection(&cap, &dynamicDebug);
+	    	if (obstacle != none) obstaclePresent = true;
+	    	else obstaclePresent = false;
 
-	 //    }
+	    }
 
 //--- obstacle overcomming -------------------------------------------------------//
 
@@ -545,28 +544,52 @@ int testSerial(char** argv){
 
 void initMasks(){
 
+	// // wall obstacle; Blue;
+	// obstacles_mask[0].lowH 	= 100;
+	// obstacles_mask[0].lowS 	= 100;
+	// obstacles_mask[0].lowV 	= 70;
+	// obstacles_mask[0].highH = 150;
+	// obstacles_mask[0].highS = 255;
+	// obstacles_mask[0].highV = 255;
+
+	// // degree obstacle; Yellow;
+	// obstacles_mask[1].lowH 	= 0;
+	// obstacles_mask[1].lowS 	= 200;
+	// obstacles_mask[1].lowV 	= 55;
+	// obstacles_mask[1].highH = 179;
+	// obstacles_mask[1].highS = 255;
+	// obstacles_mask[1].highV = 255;
+
+	// // portal obstacle; Green;
+	// obstacles_mask[2].lowH 	= 0;
+	// obstacles_mask[2].lowS 	= 100;
+	// obstacles_mask[2].lowV 	= 60; 
+	// obstacles_mask[2].highH = 90;
+	// obstacles_mask[2].highS = 205;
+	// obstacles_mask[2].highV = 180;
+
 	// wall obstacle; Blue;
-	obstacles_mask[0].lowH 	= 100;
-	obstacles_mask[0].lowS 	= 100;
-	obstacles_mask[0].lowV 	= 70;
-	obstacles_mask[0].highH = 150;
-	obstacles_mask[0].highS = 255;
-	obstacles_mask[0].highV = 255;
+	obstacles_mask[0].lowH 	= 0;
+	obstacles_mask[0].lowS 	= 0;
+	obstacles_mask[0].lowV 	= 0;
+	obstacles_mask[0].highH = 0;
+	obstacles_mask[0].highS = 0;
+	obstacles_mask[0].highV = 0;
 
 	// degree obstacle; Yellow;
 	obstacles_mask[1].lowH 	= 0;
-	obstacles_mask[1].lowS 	= 200;
-	obstacles_mask[1].lowV 	= 55;
-	obstacles_mask[1].highH = 179;
-	obstacles_mask[1].highS = 255;
-	obstacles_mask[1].highV = 255;
+	obstacles_mask[1].lowS 	= 0;
+	obstacles_mask[1].lowV 	= 0;
+	obstacles_mask[1].highH = 0;
+	obstacles_mask[1].highS = 0;
+	obstacles_mask[1].highV = 0;
 
 	// portal obstacle; Green;
 	obstacles_mask[2].lowH 	= 0;
-	obstacles_mask[2].lowS 	= 100;
-	obstacles_mask[2].lowV 	= 60; 
-	obstacles_mask[2].highH = 90;
-	obstacles_mask[2].highS = 205;
-	obstacles_mask[2].highV = 180;
+	obstacles_mask[2].lowS 	= 0;
+	obstacles_mask[2].lowV 	= 0;
+	obstacles_mask[2].highH = 0;
+	obstacles_mask[2].highS = 0;
+	obstacles_mask[2].highV = 0;
 	
 }

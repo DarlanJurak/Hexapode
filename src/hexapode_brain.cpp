@@ -127,19 +127,20 @@ int main( int argc, char** argv )
 
 	while(1){
 
-		sendCommand(goAHead);
+		// sendCommand(goAHead);
+		sendCommand(squat);
 		cout << "Sent go ahead command. " << endl;
 
 //--- obstacle detection ---------------------------------------------------------//
 
-		cout << "Starting obstacleDetection function. " << endl;
-	    while(!obstaclePresent){
+		// cout << "Starting obstacleDetection function. " << endl;
+	 //    while(!obstaclePresent){
 
-	    	obstacle = obstacleDetection(&cap, &dynamicDebug);
-	    	if (obstacle != none) obstaclePresent = true;
-	    	else obstaclePresent = false;
+	 //    	obstacle = obstacleDetection(&cap, &dynamicDebug);
+	 //    	if (obstacle != none) obstaclePresent = true;
+	 //    	else obstaclePresent = false;
 
-	    }
+	 //    }
 
 //--- obstacle overcomming -------------------------------------------------------//
 

@@ -173,6 +173,16 @@ int main( int argc, char** argv )
 
 	    			cout << "Sent go ahead command to pass degree. " << endl;
 	    			sendCommand(goAHead);
+	    			cout << "Sent go ahead command to pass degree. " << endl;
+	    			sendCommand(goAHead);
+	    			cout << "Sent go ahead command to pass degree. " << endl;
+	    			sendCommand(goAHead);
+	    			cout << "Sent go ahead command to pass degree. " << endl;
+	    			sendCommand(goAHead);
+	    			cout << "Sent go ahead command to pass degree. " << endl;
+	    			sendCommand(goAHead);
+	    			cout << "Sent go ahead command to pass degree. " << endl;
+	    			sendCommand(goAHead);
 
 	    		break;
 	    		
@@ -203,6 +213,14 @@ int main( int argc, char** argv )
 				if(crouched){
 
 					cout << "Sent go ahead command to pass portal. " << endl;
+	    			sendCommand(goAHead);
+	    			cout << "Sent go ahead command to pass portal. " << endl;
+	    			sendCommand(goAHead);
+	    			cout << "Sent go ahead command to pass portal. " << endl;
+	    			sendCommand(goAHead);
+	    			cout << "Sent go ahead command to pass portal. " << endl;
+	    			sendCommand(goAHead);
+	    			cout << "Sent go ahead command to pass portal. " << endl;
 	    			sendCommand(goAHead);
 	    			cout << "Sent go ahead command to pass portal. " << endl;
 	    			sendCommand(goAHead);
